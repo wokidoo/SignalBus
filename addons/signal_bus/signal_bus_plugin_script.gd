@@ -1,12 +1,12 @@
 @tool
 extends EditorPlugin
 
-
-func _enter_tree():
+func _enable_plugin():
 	# Initialization of the plugin goes here.
 	add_autoload_singleton("SignalBus","res://addons/signal_bus/signal_bus.gd")
 
 
-func _exit_tree():
+func _disable_plugin():
 	# Clean-up of the plugin goes here.
-	remove_autoload_singleton("signalBus")
+	remove_autoload_singleton("SignalBus")
+	
