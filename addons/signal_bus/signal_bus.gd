@@ -1,5 +1,4 @@
 extends Node
-
 ## A system that helps manage user made [Signal]s more easily
 ##
 ## The [SignalBus] is an autoload 
