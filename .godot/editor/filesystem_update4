@@ -1,2 +1,3 @@
 res://test_scene.tscn
+res://addons/signal_bus/plugin.cfg
 res://addons/signal_bus/signal_bus.gd
