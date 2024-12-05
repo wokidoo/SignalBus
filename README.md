@@ -1,4 +1,4 @@
-# SignalBus Plugin for Godot
+# SignalBus - Plugin for Godot
 
 SignalBus is a Godot plugin that provides a centralized signal management system, helping you decouple signals from specific scripts and simplifying one-to-many or many-to-many communication between nodes.
 
