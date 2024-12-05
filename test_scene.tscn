@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh2t7p4sv40a3"]
+
+[ext_resource type="Script" path="res://test_scene.gd" id="1_r6nfe"]
+
+[sub_resource type="GDScript" id="GDScript_4vgmy"]
+script/source = "extends Node
+
+func _ready():
+	
+	print(SignalBus.get_bus_signal_parameters(\"on_bus_signal_added\"))
+	var timer = Timer.new()
+	timer.wait_time = 3
+	self.add_child(timer)
+	print(\"Timer start\")
+	timer.start()
+	await timer.timeout
+	print(\"RING RING\")
+	SignalBus.add_signal_to_bus(\"new_signal\",[
+		{\"name\":\"arg1\",\"type\":TYPE_STRING},
+		])
+	for x in SignalBus.get_signal_list():
+		print(\"Signal: \",x.get(\"name\"))
+				
+	SignalBus.connect(\"new_signal\",foo)
+	timer.start()
+	await timer.timeout
+	SignalBus.emit_signal(\"new_signal\",\"oh wow this works\")
+
+func foo(bar):
+	print(bar)
+	print(\"lol\")
+	
+func _exit_tree():
+	SignalBus.remove_signal_from_bus(\"on_player_hit\")
+"
+
+[node name="Node" type="Node"]
+script = ExtResource("1_r6nfe")
+
+[node name="player" type="Node" parent="."]
+script = SubResource("GDScript_4vgmy")
