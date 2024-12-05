@@ -2,3 +2,4 @@ res://test_scene.tscn
 res://addons/signal_bus/plugin.cfg
 res://addons/signal_bus/plugin_script.gd
 res://test_scene.gd
+res://README.md
