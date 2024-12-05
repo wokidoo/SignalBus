@@ -1,4 +1,4 @@
-# SignalBus Plugin for Godot
+# SignalBus - Plugin for Godot
 
 SignalBus is a Godot plugin that provides a centralized signal management system, helping you decouple signals from specific scripts and simplifying one-to-many or many-to-many communication between nodes.
 
@@ -20,7 +20,39 @@ SignalBus is a Godot plugin that provides a centralized signal management system
 
 ## Usage
 
-### Adding Signals
+### Adding Bus Signals
 To define a new signal and add it to the SignalBus:
 ```gdscript
-SignalBus.add_signal_to_bus("example_signal")
+SignalBus.add_signal_to_bus("on_player_hit", [
+        {"name": "damage", "type": TYPE_INT},
+        {"name": "source", "type": TYPE_OBJECT},
+    ])
+```
+
+### Connect Bus Signals
+To connect a script method to a signal in SignalBus
+```gdscript
+  func _ready():
+    SignalBus.connect("on_bus_signal_added", connect_new_signal)
+
+  func connect_new_signal(name: String):
+    # Looking for 'on_player_attack' signal
+    if name == "on_player_attack":
+      SignalBus.connect("on_player_attack", player_attacking)
+
+  # Called whenever 'on_player_attack' signal is emitted
+  func player_attacking():
+    print("player is attacking!")
+```
+
+### Emit Bus Signals
+To emit a signal in the SignalBus:
+```gdscript
+SignalBus.emit_signal("on_player_hit")
+```
+
+### Removing Bus Signals
+To remove an existing signal from the SignalBus:
+```gdscript
+SignalBus.remove_signal_from_bus("on_player_hit")
+```
