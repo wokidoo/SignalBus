@@ -3,7 +3,6 @@
 ![Godot Engine](https://img.shields.io/badge/Made%20With-Godot%204-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
 ![Godot v4.3](https://img.shields.io/badge/Godot-v4.3-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
 ![Godot Asset Library](https://img.shields.io/badge/Available%20on-Godot%20Asset%20Library-blue?style=for-the-badge)
-![Latest Release](https://img.shields.io/github/v/release/YOUR_USERNAME/SignalBus?style=for-the-badge)
 
 **SignalBus** is a **Godot plugin** that provides a **centralized signal management system**, making it easier to **decouple signals** from specific scripts and facilitating **one-to-many** or **many-to-many** communication between nodes.
 
