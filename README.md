@@ -1,4 +1,4 @@
-# 🚦 SignalBus - Plugin for Godot
+# 🚦 SignalBus
 
 ![Godot Engine](https://img.shields.io/badge/Made%20With-Godot%204-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
 ![Godot v4.3](https://img.shields.io/badge/Godot-v4.3-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
