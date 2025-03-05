@@ -88,4 +88,4 @@ SignalBus.remove_signal_from_bus("on_player_hit")
 ## 📝 License
 This plugin is open-source and licensed under **MIT License**. Feel free to use, modify, and distribute it as needed.
 
-📢 Contributions & feedback are welcome! 🚀
+📢 Feedback is welcome! 🚀
