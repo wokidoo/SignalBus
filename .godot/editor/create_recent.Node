@@ -1,3 +1,14 @@
 Button
+Control
+PanelContainer
+Panel
+HBoxContainer
+Label
+MarginContainer
+LineEdit
+OptionButton
+TextEdit
+VBoxContainer
+CenterContainer
+ScrollContainer
 MenuButton
-Node

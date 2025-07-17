@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://do5go2ytbxhnr"]
+
+[sub_resource type="GDScript" id="GDScript_wedoh"]
+resource_name = "test_scene"
+script/source = "@tool
+extends Control
+
+func _ready():
+	SignalBus.connect(\"signal_a\",test)
+	
+func test():
+	print(\"BOOM\")
+
+
+func _on_button_pressed():
+	SignalBus.emit_signal(\"signal_a\")
+"
+
+[node name="TestScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = SubResource("GDScript_wedoh")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+text = "emit signal"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

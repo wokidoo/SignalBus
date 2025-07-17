@@ -1,2 +1,6 @@
-res://test_scene.tscn
-res://addons/signal_bus/signal_bus.gd
+res://addons/SignalBus/global_signals/signal_a.tres
+res://addons/SignalBus/global_signal_resource.gd
+res://addons/SignalBus/signal_bus_dock.tscn
+res://addons/SignalBus/test_scene.tscn
+res://addons/SignalBus/signal_bus.gd
+res://addons/SignalBus/global_signals/a.tres

@@ -10,13 +10,9 @@ config_version=5
 
 [application]
 
-config/name="signal_bus"
-config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
-
-[autoload]
-
-SignalBus="*res://addons/signal_bus/signal_bus.gd"
+config/name="SignalBus"
+config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="uid://jly16dteys3g"
 
 [dotnet]
 
@@ -24,4 +20,4 @@ project/assembly_name="signal_bus"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/signal_bus/plugin.cfg")
+disabled=PackedStringArray("res://addons/SignalBus/plugin.cfg")
