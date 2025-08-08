@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="SignalBus"
+run/main_scene="uid://dfyt7blif6gcv"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="uid://jly16dteys3g"
+
+[autoload]
+
+SignalBus="*res://addons/SignalBus/scripts/signal_bus.gd"
 
 [dotnet]
 
@@ -21,3 +26,8 @@ project/assembly_name="signal_bus"
 [editor_plugins]
 
 disabled=PackedStringArray("res://addons/SignalBus/plugin.cfg")
+enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg")
+
+[signal_bus]
+
+signals=Dictionary[String, Array]({})

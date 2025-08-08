@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=3 uid="uid://dag18v5gqgw7y"]
+
+[ext_resource type="Texture2D" uid="uid://bjdv4aap1bdyr" path="res://addons/SignalBus/icons/Remove.svg" id="1_usub3"]
+
+[sub_resource type="GDScript" id="GDScript_usub3"]
+resource_name = "global_signal_node"
+script/source = "@tool
+extends VBoxContainer
+
+const PARAM_CONTAINER_SCENE: PackedScene = preload(\"uid://3p0wn8s2wjdr\")
+
+@onready var signal_name_label := %SignalName
+@onready var param_container: Control = %ParamVBoxContainer
+@onready var new_param_button: Control = %NewParameterButton
+
+@export var signal_name:String
+@export var parameters: Array[Dictionary]
+
+func _ready():
+	update_gui()
+
+func update_gui():
+	update_name_label()
+	update_parameter_containers()
+
+func update_name_label():
+	if signal_name_label:
+		signal_name_label.text = signal_name
+		
+func update_parameter_containers():
+	if param_container:
+		for param in param_container.get_children():
+			param.queue_free()
+		for param in SignalBus.get_global_signal_parameters(signal_name):
+			var param_node = PARAM_CONTAINER_SCENE.instantiate()
+			var param_name:String = param.get(\"name\")
+			var param_type:int = param.get(\"type\")
+			param_node.signal_name = signal_name
+			param_node.param_name = param_name
+			param_node.param_type = param_type
+			param_container.add_child(param_node)
+
+func _on_new_parameter_button_pressed():
+	var param_name:String = \"new_param\"
+	var param_type:int = 1 # Int type
+	if SignalBus.add_signal_parameter(signal_name,param_name,param_type):
+		var new_param = PARAM_CONTAINER_SCENE.instantiate()
+		new_param.set(\"param_name\",param_name)
+		new_param.set(\"param_type\",param_type)
+		new_param.set(\"signal_name\",signal_name)
+		param_container.add_child(new_param)
+
+func _on_delete_signal_button_pressed():
+	if SignalBus.remove_global_signal(signal_name):
+		queue_free()
+	else:
+		push_error(\"Could not remove '%s' from SignalBus.\" % signal_name)
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_usub3"]
+bg_color = Color(0.0941176, 0.101961, 0.113725, 1)
+
+[node name="GlobalSignalNode" type="VBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 63.0
+grow_horizontal = 2
+size_flags_vertical = 0
+alignment = 2
+script = SubResource("GDScript_usub3")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_usub3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="SignalName" type="Label" parent="Panel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+vertical_alignment = 1
+
+[node name="DeleteSignalButton" type="Button" parent="Panel/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+tooltip_text = "Delete global signal"
+icon = ExtResource("1_usub3")
+
+[node name="ParamVBoxContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NewParameterButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "+ Add new parameter"
+
+[connection signal="pressed" from="Panel/HBoxContainer/DeleteSignalButton" to="." method="_on_delete_signal_button_pressed"]
+[connection signal="pressed" from="NewParameterButton" to="." method="_on_new_parameter_button_pressed"]
