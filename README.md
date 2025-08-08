@@ -1,26 +1,27 @@
 # 🚦 SignalBus
 
 ![Godot Engine](https://img.shields.io/badge/Made%20With-Godot%204-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
-![Godot v4.3](https://img.shields.io/badge/Godot-v4.3-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
+![Godot v4.3](https://img.shields.io/badge/Godot-v4.4-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
 ![Godot Asset Library](https://img.shields.io/badge/Available%20on-Godot%20Asset%20Library-blue?style=for-the-badge)
 
-**SignalBus** is a **Godot plugin** that provides a **centralized signal management system**, making it easier to **decouple signals** from specific scripts and facilitating **one-to-many** or **many-to-many** communication between nodes.
+**SignalBus** is **Godot** editor plugin that enables the creation of global signals! Global signals, unlike traditional do not belong to any specific class. Instead, they are globally accessible from
+anywhere in the engine using the **SignalBus** singleton, enabling users to connect objects far more flexibly. 
 
 ---
 
 ## ✨ Features
-✔ **Centralized Signal Management** – Manage signals globally in one place.  
+✔ **User Friendly** – Create and manage signals directly from the editor.  
 ✔ **Decoupled Architecture** – Reduce dependencies between nodes and scripts.  
 ✔ **Flexible Signal Handling** – Emit and connect to signals across the entire project.  
-✔ **Supports One-to-Many & Many-to-Many Communication** – Ideal for event-driven architectures.  
+✔ **Lightweight** – Easily added to any project with no other requirements.  
 
 ---
 
 ## 🛠 When to Use SignalBus
 ✅ **Use SignalBus when:**
-- You need to **decouple** signals from specific scripts or nodes.
-- Multiple nodes need to emit or listen to the **same signal**, e.g., event handling or game state updates.
-- You want a cleaner and **scalable** approach to signal management.
+- Several unrelated classes define the same signal.
+- Dealing with complex node hierarchies.
+- Global events that need to be accessed by any object.
 
 ⚠️ **Note:** SignalBus **does not replace** Godot’s built-in signal system. For simple, node-specific signals, use the default signal mechanism.
 
@@ -36,52 +37,6 @@
 1️⃣ **Download or Clone** the repository.  
 2️⃣ Copy the **`addons/signal_bus/`** folder into your **Godot project's `addons/`** directory.  
 3️⃣ In **Godot**, go to **`Project Settings > Plugins`**, find **`SignalBus`**, and **enable** it.  
-
----
-
-## 🚀 Usage
-
-### 📌 Adding Bus Signals
-Define a new signal and add it to SignalBus:
-```gdscript
-SignalBus.add_signal_to_bus("on_player_hit", [
-    {"name": "damage", "type": TYPE_INT},
-    {"name": "source", "type": TYPE_OBJECT},
-])
-```
-
----
-
-### 🔗 Connecting to Bus Signals
-Connect a script method to a signal in SignalBus:
-```gdscript
-func _ready():
-    SignalBus.connect("on_bus_signal_added", connect_new_signal)
-
-def connect_new_signal(name: String):
-    # Looking for 'on_player_attack' signal
-    if name == "on_player_attack":
-        SignalBus.connect("on_player_attack", player_attacking)
-
-def player_attacking():
-    print("Player is attacking!")
-```
-
----
-
-### 📢 Emitting Bus Signals
-Emit a signal using SignalBus:
-```gdscript
-SignalBus.emit_signal("on_player_hit")
-```
-
----
-
-### ❌ Removing Bus Signals
-Remove an existing signal from SignalBus:
-```gdscript
-SignalBus.remove_signal_from_bus("on_player_hit")
-```
 
 ---
 
