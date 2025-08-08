@@ -13,7 +13,7 @@ config_version=5
 config/name="SignalBus"
 run/main_scene="uid://dfyt7blif6gcv"
 config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="uid://jly16dteys3g"
+config/icon="uid://bjtjk04ysj0xo"
 
 [autoload]
 
