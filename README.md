@@ -11,6 +11,7 @@
 - [When to Use SignalBus](#-when-to-use)
 - [Installation](#-installation)
 - [Quick Start Example](#-quick-start-example)
+- [Disclaimer](#-disclaimer)
 - [License](#-license)
 
 ## ✨ Features
