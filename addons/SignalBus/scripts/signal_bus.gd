@@ -20,6 +20,10 @@ var _signal_registery: Dictionary[String,Array]
 func _init():
 	load_signals()
 
+## Checks if a given global signal is registered in SignalBus
+func has_global_signal(signal_name:String) ->bool:
+	return _signal_registery.has(signal_name) and has_signal(signal_name)
+
 ## Commit registered global signals to ProjectSettings
 func save_signals():
 	ProjectSettings.set_setting(SignalBus.SETTINGS_KEY,_signal_registery)
