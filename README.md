@@ -20,12 +20,10 @@ A core singleton script that manages the addition, modification, removal, and em
 A node that allows a global signal to connect directly to a chosen callable (method) in the parent node, with no scripting required.
 
 ## 🛠 When to Use
-✅ **Use SignalBus when:**
+### ✅ Use SignalBus when
 - Several unrelated classes must define and emit the same signal.
 - You are dealing with complex Node or SceneTree hierarchies.
 - You need global events that can be accessed by any object.
-
-🛑 **Note:** SignalBus does not replace Godot’s built-in signal system. Most implementations do not require global signals.
 
 ## 📥 Installation
 ### **Option 1: Install from the Godot Asset Library** (Recommended)  
@@ -53,7 +51,7 @@ Add the following line to a script to add the global signal
 SignalBus.add_global_signal("game_over")
 ```
 ### Example
-After making sure that the `game_over` global signal is registered in SignalBus...
+After making sure that the `game_over` global signal is registered in **SignalBus**...
 ```
 # Emitting a signal
 SignalBus.emit_signal("game_over", final_score)
@@ -64,6 +62,8 @@ SignalBus.connect("game_over", Callable(self, "_on_game_over"))
 func _on_game_over():
     print("Game over!")
 ```
+## 🛑 Disclaimer
+**SignalBus** does not replace Godot’s built-in signal system. Most implementations do not require global signals.
 
 ## 📝 License
 This plugin is open-source and licensed under **MIT License**. Feel free to use, modify, and distribute it as needed.
