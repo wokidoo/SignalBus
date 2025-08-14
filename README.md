@@ -55,7 +55,7 @@ SignalBus.add_global_signal("game_over")
 After making sure that the `game_over` global signal is registered in **SignalBus**...
 ```
 # Emitting a signal
-SignalBus.emit_signal("game_over", final_score)
+SignalBus.emit_signal("game_over")
 
 # Listening to a signal
 SignalBus.connect("game_over", Callable(self, "_on_game_over"))
