@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dfyt7blif6gcv"]
+[gd_scene load_steps=4 format=3 uid="uid://dfyt7blif6gcv"]
+
+[ext_resource type="Script" uid="uid://c3k621vj53i6e" path="res://addons/SignalBus/scripts/signal_bus_subscriber.gd" id="1_mf2ft"]
 
 [sub_resource type="GDScript" id="GDScript_uhqqe"]
 resource_name = "test_signal_button"
 script/source = "extends Button
-
-
 
 func _on_pressed():
 	SignalBus.emit_signal(\"test_signal\")
@@ -13,10 +13,6 @@ func _on_pressed():
 [sub_resource type="GDScript" id="GDScript_6adnx"]
 resource_name = "test_color_rect"
 script/source = "extends ColorRect
-
-func _ready():
-	SignalBus.add_global_signal(\"test_signal\")
-	SignalBus.connect(\"test_signal\",randomize_color)
 	
 func randomize_color():
 	color = Color(randf(),randf(),randf())
@@ -40,12 +36,18 @@ grow_vertical = 2
 
 [node name="TestSignalButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Test Global Signal"
+text = "Test Global Signal A"
 script = SubResource("GDScript_uhqqe")
 
 [node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 script = SubResource("GDScript_6adnx")
+
+[node name="SignalBusSubscriber" type="Node" parent="VBoxContainer/ColorRect"]
+script = ExtResource("1_mf2ft")
+subscribed_signal = "test_signal"
+method_call = "randomize_color"
+metadata/_custom_type_script = "uid://c3k621vj53i6e"
 
 [connection signal="pressed" from="VBoxContainer/TestSignalButton" to="VBoxContainer/TestSignalButton" method="_on_pressed"]
