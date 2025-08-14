@@ -36,8 +36,13 @@ grow_vertical = 2
 
 [node name="TestSignalButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
-text = "Test Global Signal A"
+text = "Test Global Signal"
 script = SubResource("GDScript_uhqqe")
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "⚠Remember to register \"test_signal\" in SignalBus ⚠"
+horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
 layout_mode = 2
