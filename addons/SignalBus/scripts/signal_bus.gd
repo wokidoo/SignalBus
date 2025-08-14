@@ -13,11 +13,13 @@ signal global_signal_changed()
 
 signal global_signal_removed()
 
+signal global_signals_loaded()
+
 const SETTINGS_KEY := "signal_bus/signals"
 
-var _signal_registery: Dictionary[String,Array]
+static var _signal_registery: Dictionary = {}
 
-func _init():
+func _ready():
 	load_signals()
 
 ## Checks if a given global signal is registered in SignalBus
@@ -25,20 +27,30 @@ func has_global_signal(signal_name:String) ->bool:
 	return _signal_registery.has(signal_name) and has_signal(signal_name)
 
 ## Commit registered global signals to ProjectSettings
-func save_signals():
-	ProjectSettings.set_setting(SignalBus.SETTINGS_KEY,_signal_registery)
+static func save_signals():
+	ProjectSettings.set_setting(SETTINGS_KEY,_signal_registery)
 	ProjectSettings.save()
 
 ## Retrieves global signals from ProjectSettings and sets signal registery
-func load_signals():
-	for signal_name in _signal_registery:
-		remove_global_signal(signal_name)
-	_signal_registery.clear()
-	_signal_registery = ProjectSettings.get_setting(SETTINGS_KEY,{})
-	for signal_name in _signal_registery:
-		var parameters = _signal_registery.get(signal_name)
-		_signal_registery.set(signal_name,parameters)
-		add_user_signal(signal_name,parameters)
+func load_signals() -> void:
+	# Replace in-memory registry with what’s on disk
+	_signal_registery = ProjectSettings.get_setting(SETTINGS_KEY, {})
+
+	# Remove any existing user signals on this node
+	for s in get_signal_list():
+		var name: String = s.name
+		if has_user_signal(name):
+			remove_user_signal(name)
+
+	# Re-register from the registry
+	for signal_name in _signal_registery.keys():
+		var params: Array = _signal_registery[signal_name]
+		# ensure signature is up to date
+		if has_signal(signal_name):
+			remove_user_signal(signal_name)
+		add_user_signal(signal_name, params)
+	
+	global_signals_loaded.emit()
 
 ## Get all signal parameters for a given signal
 func get_global_signal_parameters(signal_name:String) -> Array:
@@ -61,7 +73,7 @@ func add_signal_parameter(signal_name:String,parameter_name:String,parameter_typ
 				   % [parameter_name, signal_name])
 		return false
 
-	var params := _signal_registery[signal_name]  # Array of Dictionaries
+	var params := _signal_registery.get(signal_name)  # Array of Dictionaries
 
 	# prevent duplicate names
 	for p in params:
@@ -78,7 +90,7 @@ func add_signal_parameter(signal_name:String,parameter_name:String,parameter_typ
 	params.append(new_param)
 
 	# re-register signal with updated params
-	_signal_registery[signal_name] = params
+	_signal_registery.set(signal_name,params)
 	remove_user_signal(signal_name)
 	add_user_signal(signal_name, params)
 	save_signals()
@@ -100,7 +112,7 @@ func remove_signal_parameter(signal_name:String, parameter_name:String) -> bool:
 				   % [parameter_name, signal_name])
 		return false
 
-	var params := _signal_registery[signal_name]   # Array of Dictionaries
+	var params := _signal_registery.get(signal_name)   # Array of Dictionaries
 
 	# Locate and remove
 	var removed := false
@@ -116,7 +128,7 @@ func remove_signal_parameter(signal_name:String, parameter_name:String) -> bool:
 		return false
 
 	# Re-register the signal with updated parameter list
-	_signal_registery[signal_name] = params
+	_signal_registery.set(signal_name,params)
 	remove_user_signal(signal_name)
 	add_user_signal(signal_name, params)
 
@@ -134,7 +146,7 @@ func set_signal_parameter_name(signal_name:String,original_name:String,new_name:
 		print_rich("[color=red][b]Could not remove '%s' from SignalBus. Signal name not found in the registery.[/b][/color]" % signal_name)
 		return false
 	
-	var params := _signal_registery[signal_name]
+	var params := _signal_registery.get(signal_name)
 
 	var found := false
 	for p in params:
@@ -150,7 +162,7 @@ func set_signal_parameter_name(signal_name:String,original_name:String,new_name:
 		return false
 
 	# update registry and re-register the signal
-	_signal_registery[signal_name] = params
+	_signal_registery.set(signal_name,params)
 	add_user_signal(signal_name, params)
 	
 	save_signals()
@@ -170,7 +182,7 @@ func set_signal_parameter_type(signal_name:String, parameter_name:String, new_ty
 				   % [parameter_name, signal_name])
 		return false
 
-	var params := _signal_registery[signal_name]
+	var params := _signal_registery.get(signal_name)
 
 	# Find the param by name and update its int type
 	var found := false
@@ -186,7 +198,7 @@ func set_signal_parameter_type(signal_name:String, parameter_name:String, new_ty
 		return false
 
 	# Re-register the signal so Godot picks up the new signature
-	_signal_registery[signal_name] = params
+	_signal_registery.set(signal_name,params)
 	remove_user_signal(signal_name)
 	add_user_signal(signal_name, params)
 

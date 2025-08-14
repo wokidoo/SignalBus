@@ -14,18 +14,29 @@ const PARAM_CONTAINER_SCENE: PackedScene = preload(\"uid://3p0wn8s2wjdr\")
 @onready var new_signal_label: LineEdit = %NewSignalLineEdit
 
 var signal_control_dict: Dictionary[String,Node] = {}
+var _sb:Node = null
 
 func _ready():
-	SignalBus.global_signal_changed.connect(populate_dock)
-	populate_dock()
+	_sb = get_tree().root.get_node_or_null(\"/root/SignalBus\")
+	if _sb:
+		_sb.global_signal_changed.connect(populate_dock,CONNECT_DEFERRED)
+		_sb.global_signals_loaded.connect(populate_dock,CONNECT_DEFERRED)
+	call_deferred(\"populate_dock\")
 
 func populate_dock():
+	if not is_instance_valid(_sb):
+		_sb = get_tree().root.get_node_or_null(\"/root/SignalBus\")
+		_sb.global_signal_changed.connect(populate_dock,CONNECT_DEFERRED)
+		_sb.global_signals_loaded.connect(populate_dock,CONNECT_DEFERRED)
+		if not _sb:
+			return
+			
 	for node in signal_container.get_children():
-		node.queue_free()
+		node.free()
 		
-	for signal_name in SignalBus._signal_registery:
+	for signal_name in _sb._signal_registery:
 		var signal_node = GLOBAL_SIGNAL_SCENE.instantiate()
-		var parameters = SignalBus.get_global_signal_parameters(signal_name)
+		var parameters = _sb.get_global_signal_parameters(signal_name)
 		signal_node.set(\"signal_name\",signal_name)
 		signal_node.set(\"parameters\",parameters)
 		signal_container.add_child(signal_node)
@@ -72,6 +83,10 @@ func _on_reset_plugin_button_pressed():
 	SignalBus.reset_plugin_project_settings()
 	for node in signal_container.get_children():
 		node.queue_free()
+
+
+func _on_refresh_button_pressed():
+	populate_dock()
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ocjv6"]
@@ -146,6 +161,10 @@ icon_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="RefreshButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="PrintSignalsButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -157,4 +176,5 @@ icon_alignment = 1
 [connection signal="text_submitted" from="VBoxContainer/NewSignalPanelContainer/HBoxContainer/NewSignalLineEdit" to="." method="_on_new_signal_line_edit_text_submitted"]
 [connection signal="pressed" from="VBoxContainer/NewSignalPanelContainer/HBoxContainer/AddNewSignalButton" to="." method="_on_add_new_signal_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ResetPluginButton" to="." method="_on_reset_plugin_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PrintSignalsButton" to="." method="_on_print_signals_button_pressed"]
