@@ -2,14 +2,31 @@
 
 [ext_resource type="Texture2D" uid="uid://bjdv4aap1bdyr" path="res://addons/SignalBus/icons/Remove.svg" id="1_usub3"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sbval"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.239216, 0.258824, 0.278431, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.133333, 0.141176, 0.152941, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="GDScript" id="GDScript_usub3"]
 resource_name = "global_signal_node"
 script/source = "@tool
-extends VBoxContainer
+extends PanelContainer
 
 const PARAM_CONTAINER_SCENE: PackedScene = preload(\"uid://3p0wn8s2wjdr\")
 
-@onready var signal_name_label := %SignalName
+@onready var signal_name_line_edit := %SignalName
 @onready var param_container: Control = %ParamVBoxContainer
 @onready var new_param_button: Control = %NewParameterButton
 
@@ -17,15 +34,8 @@ const PARAM_CONTAINER_SCENE: PackedScene = preload(\"uid://3p0wn8s2wjdr\")
 @export var parameters: Array[Dictionary]
 
 func _ready():
-	update_gui()
-
-func update_gui():
-	update_name_label()
+	signal_name_line_edit.text = signal_name
 	update_parameter_containers()
-
-func update_name_label():
-	if signal_name_label:
-		signal_name_label.text = signal_name
 		
 func update_parameter_containers():
 	if param_container:
@@ -55,48 +65,56 @@ func _on_delete_signal_button_pressed():
 		queue_free()
 	else:
 		push_error(\"Could not remove '%s' from SignalBus.\" % signal_name)
+
+func _on_signal_name_text_submitted(new_text):
+	if SignalBus.set_signal_name(signal_name,new_text):
+		signal_name = new_text
+		for child in param_container.get_children():
+			child.signal_name = signal_name
+	else:
+		signal_name_line_edit.text = signal_name
 "
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_usub3"]
-bg_color = Color(0.0941176, 0.101961, 0.113725, 1)
-
-[node name="GlobalSignalNode" type="VBoxContainer"]
-anchors_preset = 10
+[node name="GlobalSignalNode" type="PanelContainer"]
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-offset_bottom = 63.0
+anchor_bottom = 0.5
+offset_top = -39.0
+offset_bottom = 39.0
 grow_horizontal = 2
-size_flags_vertical = 0
-alignment = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sbval")
 script = SubResource("GDScript_usub3")
 
-[node name="Panel" type="PanelContainer" parent="."]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_usub3")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="SignalName" type="Label" parent="Panel/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SignalName" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-vertical_alignment = 1
+size_flags_horizontal = 3
 
-[node name="DeleteSignalButton" type="Button" parent="Panel/HBoxContainer"]
+[node name="DeleteSignalButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 8
 tooltip_text = "Delete global signal"
 icon = ExtResource("1_usub3")
 
-[node name="ParamVBoxContainer" type="VBoxContainer" parent="."]
+[node name="ParamVBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="NewParameterButton" type="Button" parent="."]
+[node name="NewParameterButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "+ Add new parameter"
 
-[connection signal="pressed" from="Panel/HBoxContainer/DeleteSignalButton" to="." method="_on_delete_signal_button_pressed"]
-[connection signal="pressed" from="NewParameterButton" to="." method="_on_new_parameter_button_pressed"]
+[connection signal="text_submitted" from="VBoxContainer/HBoxContainer/SignalName" to="." method="_on_signal_name_text_submitted"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/DeleteSignalButton" to="." method="_on_delete_signal_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/NewParameterButton" to="." method="_on_new_parameter_button_pressed"]

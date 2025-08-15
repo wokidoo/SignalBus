@@ -36,6 +36,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
 script = SubResource("GDScript_khnx4")
 
 [node name="NameLabel" type="Label" parent="."]

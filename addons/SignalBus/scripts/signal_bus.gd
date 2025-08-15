@@ -137,8 +137,23 @@ func remove_signal_parameter(signal_name:String, parameter_name:String) -> bool:
 	global_signal_changed.emit()
 	return true
 
+## Set the signal name for an already registered global signal
+func set_signal_name(current_name:String, new_name:String) -> bool:
+	if not has_global_signal(current_name):
+		print_rich("[color=red][b]Global signal '%s' not found in SignalBus. Could not rename.[/b][/color]" % current_name)
+		return false
+	var params := _signal_registery.get(current_name)
+	if not remove_global_signal(current_name):
+		return false
+	_signal_registery.erase(current_name)
+	if not add_global_signal(new_name,params):
+		return false
+	save_signals()
+	global_signal_changed.emit()
+	return true
+
 ## Set a new parameter name for a given signal and parameter name
-func set_signal_parameter_name(signal_name:String,original_name:String,new_name:String):
+func set_signal_parameter_name(signal_name:String,original_name:String,new_name:String) -> bool:
 	if not has_signal(signal_name):
 		print_rich("[color=red][b]Could not remove '%s' from SignalBus. Signal not found.[/b][/color]" % signal_name)
 		return false

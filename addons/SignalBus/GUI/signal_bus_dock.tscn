@@ -83,13 +83,13 @@ func _on_reset_plugin_button_pressed():
 	SignalBus.reset_plugin_project_settings()
 	for node in signal_container.get_children():
 		node.queue_free()
-
-
-func _on_refresh_button_pressed():
-	populate_dock()
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ocjv6"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
 bg_color = Color(0.14902, 0.160784, 0.176471, 1)
 
 [node name="SignalBus" type="Control"]
@@ -144,7 +144,7 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -161,10 +161,6 @@ icon_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RefreshButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="PrintSignalsButton" type="Button" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -176,5 +172,4 @@ icon_alignment = 1
 [connection signal="text_submitted" from="VBoxContainer/NewSignalPanelContainer/HBoxContainer/NewSignalLineEdit" to="." method="_on_new_signal_line_edit_text_submitted"]
 [connection signal="pressed" from="VBoxContainer/NewSignalPanelContainer/HBoxContainer/AddNewSignalButton" to="." method="_on_add_new_signal_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ResetPluginButton" to="." method="_on_reset_plugin_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PrintSignalsButton" to="." method="_on_print_signals_button_pressed"]
