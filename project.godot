@@ -30,4 +30,6 @@ enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg")
 
 [signal_bus]
 
-signals=Dictionary[String, Array]({})
+signals=Dictionary[String, Array]({
+"test_signal": Array[Dictionary]([])
+})
