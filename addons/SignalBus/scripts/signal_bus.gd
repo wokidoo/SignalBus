@@ -224,7 +224,7 @@ func set_signal_parameter_type(signal_name:String, parameter_name:String, new_ty
 
 ## Registers a new Signal into the [SignalBus].
 ## Returns true if succesful, false otherwise.
-func add_global_signal(signal_name:String, parameters:Array[Dictionary] = [])->bool:
+func add_global_signal(signal_name:String, parameters:Array = [])->bool:
 	if _signal_registery.has(signal_name) or has_signal(signal_name):
 		print_rich("[color=red][b]Cannot register GlobalSignal. Signal name '%s' already taken.[/b][/color]" % signal_name)
 		return false
@@ -243,7 +243,7 @@ func remove_global_signal(signal_name:String)->bool:
 			print_rich("[color=red][b]Orpahaned signal name '%s' found in SignalBus registery.[/b][/color]" % signal_name)
 			_signal_registery.erase(signal_name)
 			save_signals()
-		return true
+		return false
 	if not _signal_registery.has(signal_name):
 		print_rich("[color=red][b]Could not remove '%s' from SignalBus. Signal name not found in the registery.[/b][/color]" % signal_name)
 		return false	

@@ -26,10 +26,8 @@ project/assembly_name="signal_bus"
 [editor_plugins]
 
 disabled=PackedStringArray("res://addons/SignalBus/plugin.cfg")
-enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg")
+enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg", "res://addons/gut/plugin.cfg")
 
 [signal_bus]
 
-signals=Dictionary[String, Array]({
-"test_signal": Array[Dictionary]([])
-})
+signals=Dictionary[String, Array]({})

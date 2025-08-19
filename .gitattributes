@@ -2,5 +2,5 @@
 /addons/gut/** export-ignore
 /addons/gut/ export-ignore
 # Exclude test suite
-/tests/** export-ignore
-/tests/ export-ignore
+/addons/SignalBus/test/** export-ignore
+/addons/SignalBus/test/ export-ignore
