@@ -66,7 +66,7 @@ func _on_game_over():
 ## 🛑 Disclaimers
 **SignalBus** does not replace Godot’s built-in signal system. Most implementations do not require global signals.
 
-Although the plugin make's use of [**Gut**](https://github.com/bitwes/Gut) for testing purposes, it is not a mandatory dependency and will not impact SignalBus' functionatliy if it is not downloaded.
+Although the plugin make's use of [**Gut**](https://github.com/bitwes/Gut) for testing purposes, it is not a mandatory dependency and will not impact SignalBus' functionatliy if it is not included.
 
 ## 📝 License
 This plugin is open-source and licensed under **MIT License**. Feel free to use, modify, and distribute it as needed.
