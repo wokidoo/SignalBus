@@ -1,0 +1,6 @@
+# Exclude the GUT test addon from exported archives (don't package with plugin when downloading from the asset store)
+/addons/gut/** export-ignore
+/addons/gut/ export-ignore
+# Exclude test suite
+/tests/** export-ignore
+/tests/ export-ignore
