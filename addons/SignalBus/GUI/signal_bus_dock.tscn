@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://doq1ufore4qtw"]
+[gd_scene format=3 uid="uid://doq1ufore4qtw"]
 
 [ext_resource type="Texture2D" uid="uid://dw3gawk7sdg3n" path="res://addons/SignalBus/icons/FileList.svg" id="1_yqobj"]
 
@@ -92,7 +92,7 @@ content_margin_right = 5.0
 content_margin_bottom = 5.0
 bg_color = Color(0.14902, 0.160784, 0.176471, 1)
 
-[node name="SignalBus" type="Control"]
+[node name="SignalBus" type="Control" unique_id=674327632]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,7 +101,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_ocjv6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1790048784]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -109,35 +109,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NewSignalPanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="NewSignalPanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=921049007]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NewSignalPanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/NewSignalPanelContainer" unique_id=1199112323]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/NewSignalPanelContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/NewSignalPanelContainer/HBoxContainer" unique_id=2057428194]
 layout_mode = 2
 text = "Add New Global Signal: "
 
-[node name="NewSignalLineEdit" type="LineEdit" parent="VBoxContainer/NewSignalPanelContainer/HBoxContainer"]
+[node name="NewSignalLineEdit" type="LineEdit" parent="VBoxContainer/NewSignalPanelContainer/HBoxContainer" unique_id=608881862]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 10.0
 placeholder_text = "Signal Name"
 
-[node name="AddNewSignalButton" type="Button" parent="VBoxContainer/NewSignalPanelContainer/HBoxContainer"]
+[node name="AddNewSignalButton" type="Button" parent="VBoxContainer/NewSignalPanelContainer/HBoxContainer" unique_id=596968770]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "+ Add"
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Panel" type="Panel" parent="VBoxContainer" unique_id=1634759956]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_ocjv6")
 
-[node name="SignalVBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel"]
+[node name="SignalVBoxContainer" type="VBoxContainer" parent="VBoxContainer/Panel" unique_id=656760273]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 10
@@ -146,10 +146,10 @@ grow_horizontal = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2066566995]
 layout_mode = 2
 
-[node name="ResetPluginButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="ResetPluginButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1018672550]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Remove all global signals and restore SignalBus project settings to default"
@@ -157,11 +157,11 @@ focus_mode = 0
 text = "Reset Plugin"
 icon_alignment = 1
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer" unique_id=77431168]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PrintSignalsButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="PrintSignalsButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1029848249]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Printout registered global signals to console"

@@ -8,16 +8,28 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="SignalBus"
 run/main_scene="uid://dfyt7blif6gcv"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://bjtjk04ysj0xo"
 
 [autoload]
 
 SignalBus="*res://addons/SignalBus/scripts/signal_bus.gd"
+
+[debug]
+
+gdscript/warnings/directory_rules={
+"res://addons": 0,
+"res://addons/gut": 0,
+"res://addons/gut/not_a_real_file": 0
+}
 
 [dotnet]
 
