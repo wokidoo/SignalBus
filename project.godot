@@ -42,4 +42,9 @@ enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg", "res://addons/gut
 
 [signal_bus]
 
-signals=Dictionary[String, Array]({})
+signals=Dictionary[String, Array]({
+"test_signal": [{
+"name": "param_a",
+"type": 2
+}]
+})

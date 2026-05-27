@@ -1,8 +1,5 @@
 # 🚦 SignalBus
 
-![Godot Engine](https://img.shields.io/badge/Made%20With-Godot%204-478cbf?style=for-the-badge&logo=godotengine&logoColor=white)
-![Godot Asset Library](https://img.shields.io/badge/Available%20on-Godot%20Asset%20Library-blue?style=for-the-badge)
-
 **SignalBus** is a **Godot** editor plugin that enables the creation of global signals! Global signals may be emitted from and/or connected to any script in your project. 
 
 ## Table of Contents
@@ -15,26 +12,13 @@
 
 ## ✨ Features
 ### SignalBus (Autoload)
-A core singleton script that manages the addition, modification, removal, and emitting of global signals. Global signals are saved directly in your project settings, allowing for complete portability across devices.
-### SignalBusSubscriber 
-A node that allows a global signal to connect directly to a chosen callable (method) in the parent node, with no scripting required.
+A core singleton script that manages the addition, modification, removal, and emitting of global signals. Global signals are saved directly in your project settings.
 
 ## 🛠 When to Use
 ### ✅ Use SignalBus when
 - Several unrelated classes must define and emit the same signal.
 - You are dealing with complex Node or SceneTree hierarchies.
 - You need global events that can be accessed by any object.
-
-## 📥 Installation
-### **Option 1: Install from the Godot Asset Library** (Recommended)  
-1️⃣ Open the **Godot Asset Library** from the Godot Editor.  
-2️⃣ Search for **SignalBus** and click **Download**.  
-3️⃣ Enable the plugin via **`Project Settings > Plugins`**.  
-
-### **Option 2: Manual Installation**  
-1️⃣ **Download or Clone** the repository.  
-2️⃣ Copy the **`addons/signal_bus/`** folder into your **Godot project's `addons/`** directory.  
-3️⃣ Enable the plugin via **`Project Settings > Plugins`**. 
 
 ## 💻 Quick Start Example
 The following example assumes that you have defined a global signal `game_over`. If you have not done so you can define a global signal by...
