@@ -2,17 +2,9 @@
 
 **SignalBus** is a **Godot** editor plugin that enables the creation of global signals! Global signals may be emitted from and/or connected to any script in your project. 
 
-## Table of Contents
-- [Features](#-features)
-- [When to Use SignalBus](#-when-to-use)
-- [Installation](#-installation)
-- [Quick Start Example](#-quick-start-example)
-- [Disclaimer](#-disclaimer)
-- [License](#-license)
-
 ## ✨ Features
 ### SignalBus (Autoload)
-A core singleton script that manages the addition, modification, removal, and emitting of global signals. Global signals are saved directly in your project settings.
+A core singleton script that manages the addition, modification, removal, and emitting of global signals. After registering a global signal, it can be emitted or connected to from any script in the project.
 
 ## 🛠 When to Use
 ### ✅ Use SignalBus when
