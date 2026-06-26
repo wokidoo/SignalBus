@@ -1,4 +1,5 @@
 @tool
+@icon("res://addons/SignalBus/icons/signal_bus.svg")
 extends Node
 ## Create and manage global signals directly from the Godot editor!
 ## @experimental

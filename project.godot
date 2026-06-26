@@ -16,8 +16,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="SignalBus"
 run/main_scene="uid://dfyt7blif6gcv"
-config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="uid://bjtjk04ysj0xo"
+config/features=PackedStringArray("4.7", "Forward Plus")
+config/icon="uid://dwspf0y8fcyy7"
 
 [autoload]
 
