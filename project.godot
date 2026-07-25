@@ -15,13 +15,12 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="SignalBus"
-run/main_scene="uid://dfyt7blif6gcv"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://dwspf0y8fcyy7"
 
 [autoload]
 
-SignalBus="*res://addons/SignalBus/scripts/signal_bus.gd"
+SignalBus="*uid://co8l8twjyudc7"
 
 [debug]
 
@@ -42,9 +41,6 @@ enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg", "res://addons/gut
 
 [signal_bus]
 
-signals=Dictionary[String, Array]({
-"test_signal": [{
-"name": "param_a",
-"type": 2
-}]
-})
+global_signals={
+"test_signal": []
+}

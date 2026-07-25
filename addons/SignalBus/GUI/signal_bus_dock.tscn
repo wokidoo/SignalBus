@@ -1,88 +1,60 @@
 [gd_scene format=3 uid="uid://doq1ufore4qtw"]
 
-[ext_resource type="Texture2D" uid="uid://dw3gawk7sdg3n" path="res://addons/SignalBus/icons/FileList.svg" id="1_yqobj"]
-
 [sub_resource type="GDScript" id="GDScript_ocjv6"]
 resource_name = "signal_bus_dock"
 script/source = "@tool
 extends Control
 
 const GLOBAL_SIGNAL_SCENE: PackedScene = preload(\"uid://dag18v5gqgw7y\")
-const PARAM_CONTAINER_SCENE: PackedScene = preload(\"uid://3p0wn8s2wjdr\")
 
 @onready var signal_container: Control = %SignalVBoxContainer
 @onready var new_signal_label: LineEdit = %NewSignalLineEdit
 
 var signal_control_dict: Dictionary[String,Node] = {}
-var _sb:Node = null
 
 func _ready():
-	_sb = get_tree().root.get_node_or_null(\"/root/SignalBus\")
-	if _sb:
-		_sb.global_signal_changed.connect(populate_dock,CONNECT_DEFERRED)
-		_sb.global_signals_loaded.connect(populate_dock,CONNECT_DEFERRED)
-	call_deferred(\"populate_dock\")
+	reset_dock()
 
-func populate_dock():
-	if not is_instance_valid(_sb):
-		_sb = get_tree().root.get_node_or_null(\"/root/SignalBus\")
-		_sb.global_signal_changed.connect(populate_dock,CONNECT_DEFERRED)
-		_sb.global_signals_loaded.connect(populate_dock,CONNECT_DEFERRED)
-		if not _sb:
-			return
-			
+func reset_dock():
 	for node in signal_container.get_children():
-		node.free()
+		node.queue_free()
+	
+	if not ProjectSettings.has_setting(SignalBus.SETTINGS_KEY):
+		ProjectSettings.set_setting(SignalBus.SETTINGS_KEY,{})
+	var global_signals :Dictionary = ProjectSettings.get_setting(SignalBus.SETTINGS_KEY) 
+	if global_signals.is_empty():
+		return
 		
-	for signal_name in _sb._signal_registery:
+	for sig in global_signals:
 		var signal_node = GLOBAL_SIGNAL_SCENE.instantiate()
-		var parameters = _sb.get_global_signal_parameters(signal_name)
-		signal_node.set(\"signal_name\",signal_name)
-		signal_node.set(\"parameters\",parameters)
+		signal_node.set(\"signal_name\",sig)
 		signal_container.add_child(signal_node)
+		signal_control_dict.set(sig,signal_node)
 
 func _on_add_new_signal_button_pressed():
 	if new_signal_label.text.is_empty():
 		return
 	
-	if not SignalBus.add_global_signal(new_signal_label.text):
+	if not ProjectSettings.has_setting(SignalBus.SETTINGS_KEY):
+		ProjectSettings.set_initial_value(SignalBus.SETTINGS_KEY,{})
+	var global_signals :Dictionary = ProjectSettings.get_setting(SignalBus.SETTINGS_KEY,{})
+	if global_signals.has(new_signal_label.text):
 		push_error(\"Could not register '%s' to SignalBus\" % new_signal_label.text)
 		return
-		
-	var new_signal_node = GLOBAL_SIGNAL_SCENE.instantiate()
-	new_signal_node.set(\"signal_name\",new_signal_label.text)
-	signal_container.add_child(new_signal_node)
-	signal_control_dict.set(new_signal_label.text,new_signal_node)
 	
+	global_signals.set(new_signal_label.text,[])
+	ProjectSettings.save()
+	reset_dock()
 	new_signal_label.text = \"\"
 	new_signal_label.release_focus()
 
 func _on_new_signal_line_edit_text_submitted(new_text):
 	_on_add_new_signal_button_pressed()
 
-func _remove_signal_container(_signal_name:String):
-	if signal_control_dict.has(_signal_name):
-		var node = signal_control_dict.get(_signal_name)
-		SignalBus.remove_global_signal(_signal_name)
-		signal_control_dict.erase(_signal_name)
-		node.queue_free()
-
-func _on_print_signals_button_pressed():
-	var signal_string:String
-	for si in SignalBus.get_signal_list():
-		var name = si.get(\"name\")
-		if SignalBus._signal_registery.has(name):
-			signal_string+=(\"%s:%s\" % [name,SignalBus._signal_registery.get(name)])
-	if signal_string.is_empty():
-		print_rich(\"[color=GOLD][b]No registered SignalBus signals[/b][/color]\")
-	else:
-		print_rich(\"[color=GOLD][b]Registered SignalBus Signals:[/b][/color]\")
-		print(signal_string)
 	
 func _on_reset_plugin_button_pressed():
-	SignalBus.reset_plugin_project_settings()
-	for node in signal_container.get_children():
-		node.queue_free()
+	SignalBus.reset_global_signals()
+	reset_dock()
 "
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ocjv6"]
@@ -161,15 +133,6 @@ icon_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PrintSignalsButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1029848249]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Printout registered global signals to console"
-focus_mode = 0
-icon = ExtResource("1_yqobj")
-icon_alignment = 1
-
 [connection signal="text_submitted" from="VBoxContainer/NewSignalPanelContainer/HBoxContainer/NewSignalLineEdit" to="." method="_on_new_signal_line_edit_text_submitted"]
 [connection signal="pressed" from="VBoxContainer/NewSignalPanelContainer/HBoxContainer/AddNewSignalButton" to="." method="_on_add_new_signal_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/ResetPluginButton" to="." method="_on_reset_plugin_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PrintSignalsButton" to="." method="_on_print_signals_button_pressed"]

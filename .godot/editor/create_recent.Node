@@ -1,14 +1,3 @@
-LineEdit
-VBoxContainer
-PanelContainer
-Panel
-Button
-Label
-SignalBusSubscriber
-Control
-ColorRect
-HBoxContainer
-MarginContainer
-OptionButton
-TextEdit
-CenterContainer
+Node
+EditorProperty
+EditorInspector

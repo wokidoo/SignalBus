@@ -8,6 +8,7 @@ const PACKED_DOCK: PackedScene = preload("uid://doq1ufore4qtw")
 var dock: Control
 
 func _enter_tree() -> void:
+	print("Plugin Entering Tree")
 	# Project might open with plugin already enabled:
 	if ProjectSettings.has_setting("autoload/%s" % PLUGIN_NAME):
 		call_deferred("_create_dock")

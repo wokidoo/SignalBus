@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dag18v5gqgw7y"]
+[gd_scene format=3 uid="uid://dag18v5gqgw7y"]
 
 [ext_resource type="Texture2D" uid="uid://bjdv4aap1bdyr" path="res://addons/SignalBus/icons/Remove.svg" id="1_usub3"]
 
@@ -24,58 +24,57 @@ resource_name = "global_signal_node"
 script/source = "@tool
 extends PanelContainer
 
-const PARAM_CONTAINER_SCENE: PackedScene = preload(\"uid://3p0wn8s2wjdr\")
-
 @onready var signal_name_line_edit := %SignalName
 @onready var param_container: Control = %ParamVBoxContainer
 @onready var new_param_button: Control = %NewParameterButton
 
 @export var signal_name:String
-@export var parameters: Array[Dictionary]
 
 func _ready():
 	signal_name_line_edit.text = signal_name
 	update_parameter_containers()
 		
 func update_parameter_containers():
+	var global_signals:Dictionary = ProjectSettings.get_setting(SignalBus.SETTINGS_KEY,{})
+	var parameters:Array = global_signals.get(signal_name,[])
 	if param_container:
 		for param in param_container.get_children():
 			param.queue_free()
-		for param in SignalBus.get_global_signal_parameters(signal_name):
-			var param_node = PARAM_CONTAINER_SCENE.instantiate()
-			var param_name:String = param.get(\"name\")
-			var param_type:int = param.get(\"type\")
-			param_node.signal_name = signal_name
-			param_node.param_name = param_name
-			param_node.param_type = param_type
-			param_container.add_child(param_node)
+		for param in parameters:
+			var new_param = SignalBusGlobalSignalParameterUI.new(signal_name,param.name,param.type)
+			param_container.add_child(new_param)
 
 func _on_new_parameter_button_pressed():
 	var param_name:String = \"new_param\"
 	var param_type:int = 1 # Int type
-	if SignalBus.add_signal_parameter(signal_name,param_name,param_type):
-		var new_param = PARAM_CONTAINER_SCENE.instantiate()
-		new_param.set(\"param_name\",param_name)
-		new_param.set(\"param_type\",param_type)
-		new_param.set(\"signal_name\",signal_name)
-		param_container.add_child(new_param)
+	var new_param = SignalBusGlobalSignalParameterUI.new(signal_name,param_name,param_type)
+	param_container.add_child(new_param)
 
 func _on_delete_signal_button_pressed():
-	if SignalBus.remove_global_signal(signal_name):
+	var global_signals :Dictionary = ProjectSettings.get_setting(SignalBus.SETTINGS_KEY) 
+	
+	if global_signals.has(signal_name):
+		global_signals.erase(signal_name)
+		ProjectSettings.save()
+		SignalBus.reset_global_signals()
 		queue_free()
 	else:
 		push_error(\"Could not remove '%s' from SignalBus.\" % signal_name)
 
 func _on_signal_name_text_submitted(new_text):
-	if SignalBus.set_signal_name(signal_name,new_text):
-		signal_name = new_text
-		for child in param_container.get_children():
-			child.signal_name = signal_name
+	var global_signals :Dictionary = ProjectSettings.get_setting(SignalBus.SETTINGS_KEY) 
+	if global_signals.has(signal_name) and not global_signals.has(new_text):
+		var parameters:Array = global_signals.get(signal_name)
+		global_signals.erase(signal_name)
+		global_signals.set(new_text,parameters)
+		ProjectSettings.save()
+		SignalBus.reset_global_signals()
+		update_parameter_containers()
 	else:
 		signal_name_line_edit.text = signal_name
 "
 
-[node name="GlobalSignalNode" type="PanelContainer"]
+[node name="GlobalSignalNode" type="PanelContainer" unique_id=956198312]
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -87,30 +86,30 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sbval")
 script = SubResource("GDScript_usub3")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1872080387]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=950150312]
 layout_mode = 2
 
-[node name="SignalName" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="SignalName" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=1728068190]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DeleteSignalButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+[node name="DeleteSignalButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1797302519]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 tooltip_text = "Delete global signal"
 icon = ExtResource("1_usub3")
 
-[node name="ParamVBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="ParamVBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1366998405]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="NewParameterButton" type="Button" parent="VBoxContainer"]
+[node name="NewParameterButton" type="Button" parent="VBoxContainer" unique_id=1851466737]
 unique_name_in_owner = true
 layout_mode = 2
 text = "+ Add new parameter"
