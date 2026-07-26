@@ -13,21 +13,11 @@ A core singleton script that manages the addition, modification, removal, and em
 - You need global events that can be accessed by any object.
 
 ## 💻 Quick Start Example
-The following example assumes that you have defined a global signal `game_over`. If you have not done so you can define a global signal by...
-### Option 1: Project Settings
-1️⃣ After enabling the plugin, select the **SignalBus** tab in Project Settings.  
-2️⃣ Input the name `game_over` in the **Add New Global Signal** field.  
-3️⃣ Press **Enter** or select the **+ Add** button.
+1. After enabling the plugin, select the **SignalBus** tab in Project Settings.  
+2. Input the string `game_over` in the **Add New Global Signal** field.  
+3. Press **Enter** or select the **+ Add** button.
+4. Connect and emit the signal from anywhere :)
 
-<img width="50%" alt="image" src="https://github.com/user-attachments/assets/b9fe7a3c-0b1d-4139-9f9d-8cb8f33f73b2" />
-
-### Option 2: Scripting
-Add the following line to a script to add the global signal
-```
-SignalBus.add_global_signal("game_over")
-```
-### Example
-After making sure that the `game_over` global signal is registered in **SignalBus**...
 ```
 # Emitting a signal
 SignalBus.emit_signal("game_over")
