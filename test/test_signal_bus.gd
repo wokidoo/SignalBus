@@ -8,13 +8,10 @@ func before_all():
 	original_global_signals = global_signals.duplicate()
 	# Ensure a clean persistent state
 	global_signals.clear()
-	ProjectSettings.save()
 
 func after_all():
-	global_signals = ProjectSettings.get_setting(SignalBus.SETTINGS_KEY, null)
 	# Ensure a clean persistent state
 	global_signals = original_global_signals
-	ProjectSettings.save()
 
 func before_each():
 	global_signals.set("test_signal",[])
@@ -32,6 +29,12 @@ func helper_function(...args):
 func test_adding_global_signal():
 	assert_true(SignalBus.has_global_signal("test_signal"))
 	assert_has_signal(SignalBus,'test_signal')
+
+func test_removing_global_signal():
+	assert_has_signal(SignalBus,'test_signal')
+	global_signals.erase('test_signal')
+	SignalBus.reset_global_signals()
+	assert_false(SignalBus.has_signal('test_signal'))
 
 func test_connecting_to_global_signals():
 	assert_not_connected(SignalBus,self,'test_signal')
