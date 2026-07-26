@@ -41,6 +41,4 @@ enabled=PackedStringArray("res://addons/SignalBus/plugin.cfg", "res://addons/gut
 
 [signal_bus]
 
-global_signals={
-"some_other_signal": []
-}
+global_signals={}

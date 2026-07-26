@@ -48,3 +48,13 @@ func test_emitting_global_signals():
 	assert_signal_not_emitted(SignalBus,'test_signal')
 	SignalBus.emit_signal('test_signal')
 	assert_signal_emitted(SignalBus,'test_signal')
+
+func test_emitting_global_signals_with_parameters():
+	global_signals.set('test_signal_params',[
+		{'name':'param_a','type':TYPE_OBJECT}
+		])
+	SignalBus.reset_global_signals()
+	watch_signals(SignalBus)
+	var test_object = RefCounted.new()
+	SignalBus.emit_signal('test_signal_params',test_object)
+	assert_signal_emitted_with_parameters(SignalBus,'test_signal_params',[test_object])
